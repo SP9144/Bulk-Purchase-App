@@ -5,6 +5,7 @@ import "bootstrap/dist/css/bootstrap.min.css"
 import UsersList from './components/users-list.component'
 import CreateUser from './components/create-user.component'
 import LoginUser from './components/login-user.component'
+import Vendor from './components/vendor.component'
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
         <Route path="/" exact component={UsersList}/>
         <Route path="/create" component={CreateUser}/>
         <Route path="/login" component={LoginUser}/>
+        <Route path="/vendor/:id" component={Vendor}/>
       </div>
     </Router>
   );

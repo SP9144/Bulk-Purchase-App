@@ -47,22 +47,23 @@ userRoutes.route('/add').post(function(req, res) {
 // login in for user
 userRoutes.route('/login').post(function(req, res) {
     User.find({username: req.body.username, password : req.body.password})
-        .then(users => {
-            // if(!users){
-            //     res.status(400).send('Error'); 
-            // } else {
-                res.status(200).json({'User': 'User Found'});
-                return res.json(users);
-            })
-        .catch(err => { 
-            res.status(400).send('Error'); 
-        });
-        
+        .then(user => {
+            if(!user){
+                res.status(400).send('Error'); 
+            } else {
+                // res.status(200).json({'User': 'User Found'});
+                return res.json(user);
+            }
+        }) 
+        // .catch(err => { 
+        // });
 });
+
 
 // Getting a user by id
 userRoutes.route('/:id').get(function(req, res) {
     let id = req.params.id;
+    console.log()
     User.findById(id, function(err, user) {
         res.json(user);
     });

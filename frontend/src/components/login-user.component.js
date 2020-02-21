@@ -19,6 +19,7 @@ export default class LoginUser extends Component {
     
     onChangeUsername(event) {
         this.setState({ username: event.target.value });
+        console.log("Name changed");
     }
 
     onChangePassword(event) {
@@ -35,9 +36,11 @@ export default class LoginUser extends Component {
             password: this.state.password
         }
 
+        console.log(newUser);
+
         axios.post('http://localhost:4000/login', newUser)
             .then(res => {     
-                console.log(res.data[0].type)                       
+                console.log(res.data)                       
                 if(res.data[0].type === "Customer")
                 {
                     console.log("Customer Logged in!!")
@@ -45,7 +48,7 @@ export default class LoginUser extends Component {
                         pathname: 'customer/' + res.data[0].username
                     })
                 }
-                else if(res.data[0].type == "Vendor")
+                else if(res.data[0].type === "Vendor")
                 {
                     console.log("Vendor Logged in!!")
                     this.props.history.push({
