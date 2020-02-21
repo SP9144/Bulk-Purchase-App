@@ -18,7 +18,7 @@ function App() {
                 <Link to="/" className="nav-link">Users</Link>
               </li>
               <li className="navbar-item">
-                <Link to="/create" className="nav-link">Create User</Link>
+                <Link to="/create" className="nav-link">Register</Link>
               </li>
             </ul>
           </div>
