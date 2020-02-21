@@ -6,6 +6,9 @@ import UsersList from './components/users-list.component'
 import CreateUser from './components/create-user.component'
 import LoginUser from './components/login-user.component'
 import Vendor from './components/vendor.component'
+import Vendor_disppdt from './components/vendor-disp-pdt.component'
+import Vendor_addpdt from './components/vendor-add-pdt.component'
+
 
 function App() {
   return (
@@ -33,6 +36,8 @@ function App() {
         <Route path="/create" component={CreateUser}/>
         <Route path="/login" component={LoginUser}/>
         <Route path="/vendor/:id" component={Vendor}/>
+        <Route path="/vendor/disp_pdt/:id" component={Vendor_disppdt}/>
+        <Route path="/vendor/add_pdt/:id" component={Vendor_addpdt}/>
       </div>
     </Router>
   );

@@ -8,6 +8,7 @@ const PORT = 4000;
 const userRoutes = express.Router();
 
 let User = require('./models/user');
+let Pdt = require('./models/pdt');
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -44,7 +45,7 @@ userRoutes.route('/add').post(function(req, res) {
         });
 });
 
-// login in for user
+// Login in for user
 userRoutes.route('/login').post(function(req, res) {
     User.find({username: req.body.username, password : req.body.password})
         .then(user => {
@@ -58,6 +59,31 @@ userRoutes.route('/login').post(function(req, res) {
         // .catch(err => { 
         // });
 });
+
+// Adding a new product
+userRoutes.route('/vendor/add_pdt').post(function(req, res) {
+    let pdt = new Pdt(req.body);
+    console.log(pdt);
+    pdt.save()
+        .then(pdt => {
+            res.status(200).json({'Pdt': 'Pdt added successfully'});
+        })
+        .catch(err => {
+            res.status(400).send('Error');
+        });
+});
+
+// Getting all the pdts
+userRoutes.route('/vendor_disppdt').get(function(req, res) {
+    Pdt.find(function(err, pdts) {
+        if (err) {
+            console.log(err);
+        } else {
+            res.json(pdts);
+        }
+    });
+});
+
 
 
 // Getting a user by id
