@@ -1,22 +1,18 @@
 import React, {Component} from 'react';
 import axios from 'axios';
 
-export default class CreateUser extends Component {
+export default class LoginUser extends Component {
     
     constructor(props) {
         super(props);
 
         this.state = {
             username: '',
-            email: '',
-            password: '',
-            type: ''
+            password: ''
         }
 
         this.onChangeUsername = this.onChangeUsername.bind(this);
-        this.onChangeEmail = this.onChangeEmail.bind(this);
         this.onChangePassword = this.onChangePassword.bind(this);
-        this.onChangeType = this.onChangeType.bind(this);
 
         this.onSubmit = this.onSubmit.bind(this);
     }
@@ -25,40 +21,53 @@ export default class CreateUser extends Component {
         this.setState({ username: event.target.value });
     }
 
-    onChangeEmail(event) {
-        this.setState({ email: event.target.value });
-    }
-
     onChangePassword(event) {
         this.setState({ password: event.target.value });
-    }
-
-    onChangeType(event) {
-        this.setState({ type: event.target.value });
     }
 
     onSubmit(e) {
         e.preventDefault();
 
-        console.log("Registering...");
+        console.log("Logging in...");
 
         const newUser = {
             username: this.state.username,
-            email: this.state.email,
-            password: this.state.password,
-            type: this.state.type
+            password: this.state.password
         }
 
-        axios.post('http://localhost:4000/add', newUser)
-             .then(res => console.log(res.data));
+        axios.post('http://localhost:4000/login', newUser)
+            .then(res => {     
+                console.log(res.data[0].type)                       
+                if(res.data[0].type === "Customer")
+                {
+                    console.log("Customer Logged in!!")
+                    this.props.history.push({                            
+                        pathname: 'customer/' + res.data[0].username
+                    })
+                }
+                else if(res.data[0].type == "Vendor")
+                {
+                    console.log("Vendor Logged in!!")
+                    this.props.history.push({
+                        pathname: 'vendor/' + res.data[0].username
+                    })
+                }
+                else{
+                    // console.log(res.data.type)
+                    console.log("Not logged in. :( Try Again!!")
+                    this.props.history.push(
+                        {
+                            pathname: '/login'
+                        })
+                }
 
-             console.log("Registered!!");
+            });
 
         this.setState({
             username: '',
-            email: '',
+            // email: '',
             password: '',
-            type: ''
+            // type: ''
         });
     }
 
@@ -75,7 +84,7 @@ export default class CreateUser extends Component {
                                placeholder = "Name"
                                />
                     </div>
-                    <div className="form-group">
+                    {/* <div className="form-group">
                         <label>Email: </label>
                         <input type="text" 
                                className="form-control" 
@@ -83,7 +92,7 @@ export default class CreateUser extends Component {
                                onChange={this.onChangeEmail}
                                placeholder = "Email"
                                />  
-                    </div>
+                    </div> */}
                     <div className="form-group">
                         <label>Password: </label>
                         <input type="password" 
@@ -93,7 +102,7 @@ export default class CreateUser extends Component {
                                placeholder = "Password"
                                />  
                     </div>
-                    <div className="form-group">
+                    {/* <div className="form-group">
                         <label>Type: </label>
                         <input type="text" 
                                className="form-control" 
@@ -101,9 +110,9 @@ export default class CreateUser extends Component {
                                onChange={this.onChangeType}
                                placeholder = "Vendor or Customer"
                                />  
-                    </div>
+                    </div> */}
                     <div className="form-group">
-                        <input type="submit" value="Create User" className="btn btn-primary"/>
+                        <input type="submit" value="Login User" className="btn btn-primary"/>
                     </div>
                 </form>
             </div>
